@@ -1,16 +1,40 @@
-var Ios = require("./lib/ios");
+var Ios = require("./lib/ios"),
+    Android = require("./lib/android");
 
 function Notification() {
     //initilize the client var
     this.clients = {};
 }
 
+function onTransmitted(ctx, client, notificationObj, recipient) {
+    ctx.onTransmitted(client, notificationObj, recipient);
+}
+
+function onTransmissionError(ctx, client, errorCode, notificationObj, recipient) {
+    ctx.onTransmissionError(client, errorCode, notificationObj, recipient);
+}
+
 Notification.prototype.setupIOSClient = function setupIOSClient(
     dev_key_path, dev_cert_path, prod_key_path, prod_cert_path) {
     var self = this;
     self.clients.ios = new Ios(dev_key_path, dev_cert_path, prod_key_path, prod_cert_path);
-    self.clients.ios.onTransmitted = self.onTransmitted;
-    self.clients.ios.onTransmissionError = self.onTransmissionError;
+    self.clients.ios.onTransmitted = function (client, notificationObj, recipient) {
+        onTransmitted(self, client, notificationObj, recipient);
+    };
+    self.clients.ios.onTransmissionError = function (client, errorCode, notificationObj, recipient) {
+        onTransmissionError(self, client, errorCode, notificationObj, recipient);
+    };
+};
+
+Notification.prototype.setupAndroidClient = function setupAndroidClient(api_key) {
+    var self = this;
+    self.clients.android = new Android(api_key);
+    self.clients.android.onTransmitted = function (client, notificationObj, recipient) {
+        onTransmitted(self, client, notificationObj, recipient);
+    };
+    self.clients.android.onTransmissionError = function (client, errorCode, notificationObj, recipient) {
+        onTransmissionError(self, client, errorCode, notificationObj, recipient);
+    };
 };
 
 Notification.prototype.send = function send(devices, data, is_silent) {
@@ -35,8 +59,7 @@ Notification.prototype.send = function send(devices, data, is_silent) {
  * @param recipient
  * @version 0.1
  */
-Notification.prototype.onTransmitted = function onTransmitted(client, notificationObj, recipient) {
-};
+Notification.prototype.onTransmitted = function onTransmitted(client, notificationObj, recipient) {};
 
 /**
  *
@@ -50,7 +73,6 @@ Notification.prototype.onTransmitted = function onTransmitted(client, notificati
  * @param recipient
  * @version 0.1
  */
-Notification.prototype.onTransmissionError = function onTransmissionError(client, errorCode, notificationObj, recipient) {
-};
+Notification.prototype.onTransmissionError = function onTransmissionError(client, errorCode, notificationObj, recipient) {};
 
 module.exports = Notification;

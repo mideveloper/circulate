@@ -5,8 +5,8 @@ Notification Library
 ##Supported Clients
 
 1. iOS
+2. Android
 
 ##Comming Soon
 
-2. Android
-3. Windows
+3. Windows Phone
