@@ -10,7 +10,8 @@
     "bluebird": "~2.9.33",
     "lodash": "~3.10.0",
     "ephemeral":"git+https://github.com/mideveloper/ephemeral.git",
-    "apn": "~1.7.4"
+    "apn": "~1.7.4",
+    "node-gcm": "0.11.1"
   },
   "devDependencies": {
     "grunt-cli": "~0.1.11",
