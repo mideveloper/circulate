@@ -14,10 +14,9 @@ function onTransmissionError(ctx, client, errorCode, notificationObj, recipient)
     ctx.onTransmissionError(client, errorCode, notificationObj, recipient);
 }
 
-Notification.prototype.setupIOSClient = function setupIOSClient(
-    dev_key_path, dev_cert_path, prod_key_path, prod_cert_path, prod_pass_phrase, stg_pass_phrase) {
+Notification.prototype.setupIOSClient = function setupIOSClient(key, cert, pass_phrase, sandbox) {
     var self = this;
-    self.clients.ios = new Ios(dev_key_path, dev_cert_path, prod_key_path, prod_cert_path, prod_pass_phrase, stg_pass_phrase);
+    self.clients.ios = new Ios(key, cert, pass_phrase, sandbox);
     self.clients.ios.onTransmitted = function (client, notificationObj, recipient) {
         onTransmitted(self, client, notificationObj, recipient);
     };
