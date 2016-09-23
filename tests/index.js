@@ -13,9 +13,7 @@ describe("Notification", function() {
         global.RootPath = path.resolve("");
         var key = global.RootPath + "/tests/assets/key.pem";
         var cert = global.RootPath + "/tests/assets/cert.pem";
-        var prodPassPhrase = "";
-        var stgPassPhrase = "";
-        notification.setupIOSClient(key,cert,key,cert,prodPassPhrase,stgPassPhrase);
+        notification.setupIOSClient(key, cert, "", false);
         var apiKey = "please you api key here";
         notification.setupAndroidClient(apiKey);
 
